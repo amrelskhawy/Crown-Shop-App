@@ -1,16 +1,27 @@
 export const categories = [
     {
         id: 1,
-        title: "Hats",
-        img: "",
+        title: "hats",
+        imageUrl: "https://i.ibb.co/cvpntL1/hats.png",
     },
-
     {
         id: 2,
-        img: "",
-        title: "Jackets",
+        title: "jackets",
+        imageUrl: "https://i.ibb.co/px2tCc3/jackets.png",
     },
-    { id: 3, img: "", title: "Sneakers" },
-    { id: 4, img: "", title: "Women" },
-    { id: 5, img: "", title: "Men" },
+    {
+        id: 3,
+        title: "sneakers",
+        imageUrl: "https://i.ibb.co/0jqHpnp/sneakers.png",
+    },
+    {
+        id: 4,
+        title: "womens",
+        imageUrl: "https://i.ibb.co/GCCdy8t/womens.png",
+    },
+    {
+        id: 5,
+        title: "mens",
+        imageUrl: "https://i.ibb.co/R70vBrQ/men.png",
+    },
 ];
