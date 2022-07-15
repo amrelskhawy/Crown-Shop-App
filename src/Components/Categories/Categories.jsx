@@ -1,7 +1,7 @@
 import React from "react";
-import { categories } from "../data";
+import { categories } from "../../data";
 import "./categories.styles.scss";
-import { CategoryItem } from "./category-item";
+import { CategoryItem } from "../categoriy-item/category-item";
 
 export const Categories = () => {
     return (

@@ -1,4 +1,4 @@
-import { Categories } from "./Components/Categories";
+import { Categories } from "./Components/Categories/Categories";
 
 const App = () => {
     return (
