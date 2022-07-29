@@ -1,15 +1,20 @@
-// Importing Necessary Files
+// ====================  Importing Necessary Files
 
+// import Necessary files from APP
 import {
     initializeApp
 } from "firebase/app";
+
+// import Necessary files from AUTH
 import {
-getAuth,
-signInWithRedirect,
-signInWithPopup ,
-GoogleAuthProvider
+    getAuth,
+    signInWithRedirect,
+    signInWithPopup ,
+    GoogleAuthProvider,
+    createUserWithEmailAndPassword
 } from 'firebase/auth'
 
+// import Necessary files from FIRESTORE
 import {
     getFirestore, doc ,
     getDoc , setDoc
@@ -30,13 +35,14 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 // Configure Google Auth
-const provider = new GoogleAuthProvider();
-provider.setCustomParameters({
+const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({
     prompt: "select_account"
 })
 
 const auth = getAuth();
-const SignInWithGooglePopup = () => signInWithPopup(auth,provider)
+const SignInWithGooglePopup = () => signInWithPopup(auth,googleProvider)
+const SignInWithGoogleRedirect = () => signInWithRedirect(auth,googleProvider)
 
 // ========== Dealing With Database ==========
 
@@ -49,6 +55,8 @@ const createUserDocumentFromAuth = async (userAuth) => {
         Create a Doc with Response
             from sign in with Google PopUp
     */
+
+    if (!userAuth) return ;
     const userDocRef = doc(db,'users',
         userAuth.uid)
 
@@ -82,6 +90,14 @@ const createUserDocumentFromAuth = async (userAuth) => {
 
 }
 
+
+const createAuthUserWithEmailAndPassword = async (email , password) => {
+    if (!email || !password) return ;
+    return await createUserWithEmailAndPassword(auth , email,password)
+}
+
 // Exporting The Methods
 export { auth, SignInWithGooglePopup
-    , db , createUserDocumentFromAuth}
+    , db , createUserDocumentFromAuth , SignInWithGoogleRedirect,
+    createAuthUserWithEmailAndPassword
+}
