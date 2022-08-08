@@ -7,28 +7,21 @@ import {
 import SignUp from "../sign-up/Sign-up";
 import './Sign-in.scss'
 
+import { InputField } from "../../Components/input-component/input.component";
 
-const containerStyles = {
-    display: 'flex',
-    gap: '2rem',
-    justifyContent: 'center',
-    width: '100%'
-}
-
+const defaultFormFields = {
+    email: "",
+    password: "",
+};
 
 
-
-const SignInElements = () => {
-    
-    const defaultFormFields = {
-        email: "",
-        password: "",
-    };
+const SignInElements = ({ logFunc }) => {
 
     const [formFields, setFormFields] = useState(defaultFormFields);
 
     const { email, password } = formFields;
 
+    // To Handle Changes and set a new data
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormFields((prev) => ({
@@ -36,32 +29,46 @@ const SignInElements = () => {
             [name]: value,
         }));
     };
-
+    
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        // Validation
-        
-
-        // createUserWithEmailAndPassword(email,password)
     };
 
     return (
         <div>
+            <h2>I already have an Account</h2>
+            <span>Sign in with your email and password</span>
             <form className="signIn" action="">
-                <label>Email</label>
-                <input type="email" name="signin-email" id="signin-email" 
-                value={email}
+                <InputField 
+                    label={'Email'}
+                    type="email" 
+                    name="email" 
+                    id="email"
+                    value={email}
+                    onChange={handleChange}
+                    required
                 />
-                <label>Password</label>
 
-                <input
+                <InputField 
+                    label={'Password'}
                     type="password"
-                    name="signin-password"
-                    id="signin-password"
-                    value={password}
+                    name="password"
+                    id="password"
+                    value={password} 
+                    onChange={handleChange}
+                    required
                 />
-                <button type="submit">Sign In</button>
+
+
+                <div className="buttons">
+                    <button type="submit">Sign In</button>
+                    <button
+                        class="btn-google"
+                        onClick={logFunc}
+                    >
+                        Sign In With Google</button>
+                </div>
             </form>
         </div>
     );
@@ -74,8 +81,8 @@ const SignIn = () => {
     };
 
     return (
-        <div className={"forms"} style={containerStyles}>
-            {/*<SignInElements />*/}
+        <div className={"forms container"}>
+            <SignInElements logFunc={logGoogleUser} />
             <br />
             <div>
                 <SignUp />

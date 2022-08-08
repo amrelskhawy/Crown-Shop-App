@@ -2,18 +2,24 @@ import React, { useState } from "react";
 import "./Sign-up.scss";
 import { createAuthUserWithEmailAndPassword
 , createUserDocumentFromAuth } from "../../utils/firebase.utils";
+import { InputField } from "../../Components/input-component/input.component";
 
+
+// The Default Data
 const defaultFormFields = {
     displayName: "",
     email: "",
     password: "",
     confirmPassword: "",
 };
+
+// The Sign Up Form
 const SignUp = () => {
     const [formFields, setFormFields] = useState(defaultFormFields);
 
     const { displayName, email, password, confirmPassword } = formFields;
 
+    // To Handle Changes and set a new data
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormFields((prev) => ({
@@ -21,7 +27,11 @@ const SignUp = () => {
             [name]: value,
         }));
     };
+    
+    // Return All values to defaults
+    const resetDefault = () => setFormFields(defaultFormFields)
 
+    // To Send Data
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -35,9 +45,8 @@ const SignUp = () => {
                 email,
                 password
             );
-            await createUserDocumentFromAuth(user, {
-                displayName: displayName
-            })
+            await createUserDocumentFromAuth(user, { displayName })
+            resetDefault()
             console.log(user);
         } catch (err) {
             if (err.code === 'auth/email-already-in-use') {
@@ -49,27 +58,28 @@ const SignUp = () => {
 
     return (
         <div>
+            <h2>Don't Have an Account ?</h2>
+            <span>Sign Up with your email and password</span>
             <form className={"signUp"} onSubmit={handleSubmit}>
-                <label htmlFor="">Display Name</label>
-                <input
+
+                <InputField
+                    label={'Display Name'} 
                     name={"displayName"}
                     type="text"
                     value={displayName}
-                    required
                     onChange={handleChange}
                 />
 
-                <label htmlFor="">Email</label>
-                <input
+                <InputField
+                    label={'Email'} 
                     name={"email"}
                     type="email"
                     value={email}
-                    required
                     onChange={handleChange}
                 />
 
-                <label htmlFor="">Password</label>
-                <input
+                <InputField
+                    label={'Password'} 
                     name={"password"}
                     type="password"
                     value={password}
@@ -77,18 +87,16 @@ const SignUp = () => {
                     onChange={handleChange}
                 />
 
-                <label htmlFor="">Confirm Password</label>
-                <input
+                <InputField
+                    label={'Confirm Password'} 
                     name={"confirmPassword"}
                     type="password"
                     value={confirmPassword}
                     required
                     onChange={handleChange}
                 />
-                <div className="newDiv">
-                    <span>OR</span>
-                    <button type={"submit"}>Sign Up</button>
-                </div>
+
+                <button type={"submit"}>Sign Up</button>
             </form>
         </div>
     );
