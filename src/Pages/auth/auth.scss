@@ -1,0 +1,41 @@
+.container {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+    max-width: 900px;
+    margin: 5rem auto;
+    > div {
+        flex: 1;
+    }
+}
+.signIn {
+
+    span {
+        font-size: 2rem;
+        display: block;
+        color: #8b8b8b;
+        letter-spacing: 8px;
+        font-weight: bold;
+    }
+
+    .newDiv {
+        margin-top: 1.2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .buttons {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        margin-top: .5rem;
+        gap: 2rem;
+    }
+
+
+
+    
+}

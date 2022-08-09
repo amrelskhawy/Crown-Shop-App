@@ -1,21 +1,21 @@
-import { useState } from "react";
-import {
-    auth,
-    SignInWithGooglePopup,
-    createUserDocumentFromAuth,
-} from "../../utils/firebase.utils";
-import SignUp from "../sign-up/Sign-up";
-import './Sign-in.scss'
-
+import React, { useState } from "react";
+import "./Sign-in.scss";
+import { createAuthUserWithEmailAndPassword
+, createUserDocumentFromAuth } from "../../utils/firebase.utils";
 import { InputField } from "../../Components/input-component/input.component";
+import { Button } from "../../Components/button-component/button-component";
 
+
+// The Default Data
 const defaultFormFields = {
+    displayName: "",
     email: "",
-    password: "",
+
 };
 
+// The Sign Up Form
 
-const SignInElements = ({ logFunc }) => {
+const SignIn = ({ googleFunc , signInFunc }) => {
 
     const [formFields, setFormFields] = useState(defaultFormFields);
 
@@ -29,11 +29,26 @@ const SignInElements = ({ logFunc }) => {
             [name]: value,
         }));
     };
-    
-    const handleSubmit = async (event) => {
-        event.preventDefault();
 
-    };
+    const resetDefault = () => setFormFields(defaultFormFields)
+
+
+
+    const handleSubmit = async () => {
+        try {
+            resetDefault()
+        } catch (err) {
+
+            if (err.code === 'auth/email-already-in-use') {
+                alert('Cannot Create Account, Email is Already Used !!')
+            }
+            console.log("Error Creating this user because ", err);
+
+        }
+    }
+
+
+    
 
     return (
         <div>
@@ -62,31 +77,18 @@ const SignInElements = ({ logFunc }) => {
 
 
                 <div className="buttons">
-                    <button type="submit">Sign In</button>
-                    <button
-                        class="btn-google"
-                        onClick={logFunc}
+                    <Button type="submit"
+                    onClick={signInFunc}
                     >
-                        Sign In With Google</button>
+                        Sign In
+                    </Button>
+                    <Button
+                        button_type={'google'}
+                        onClick={googleFunc}
+                    >   Sign In With Google
+                    </Button>
                 </div>
             </form>
-        </div>
-    );
-};
-
-const SignIn = () => {
-    const logGoogleUser = async () => {
-        const { user } = await SignInWithGooglePopup();
-        const userDocRef = await createUserDocumentFromAuth(user);
-    };
-
-    return (
-        <div className={"forms container"}>
-            <SignInElements logFunc={logGoogleUser} />
-            <br />
-            <div>
-                <SignUp />
-            </div>
         </div>
     );
 };

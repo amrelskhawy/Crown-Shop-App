@@ -3,6 +3,7 @@ import "./Sign-up.scss";
 import { createAuthUserWithEmailAndPassword
 , createUserDocumentFromAuth } from "../../utils/firebase.utils";
 import { InputField } from "../../Components/input-component/input.component";
+import { Button } from "../../Components/button-component/button-component";
 
 
 // The Default Data
@@ -96,7 +97,7 @@ const SignUp = () => {
                     onChange={handleChange}
                 />
 
-                <button type={"submit"}>Sign Up</button>
+                <Button type={"submit"}>Sign Up</Button>
             </form>
         </div>
     );

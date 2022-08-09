@@ -1,40 +1,5 @@
 .signUp {
-
     width: 100%;
     margin: auto;
     gap: 0.5rem;
-
-    input {
-        max-width: 500px;
-
-    }
-
-    button[type="submit"] {
-        display: inline-flex;
-        justify-self: end;
-    }
-
-
-    button,
-    input {
-        padding: 0.5rem 0.8rem;
-        outline: none;
-        font-size: 1.2rem;
-        transition: 300ms;
-    }
-
-    input:focus,
-    button:focus {
-        outline: 5px solid #ccc;
-    }
-
-    button {
-        align-self: flex-end;
-        background: #000;
-        color: #fff;
-        border: none;
-        padding: 1rem 1.5rem;
-        cursor: pointer;
-    }
-
 }
