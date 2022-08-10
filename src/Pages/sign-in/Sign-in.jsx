@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import "./Sign-in.scss";
-import { createAuthUserWithEmailAndPassword
-, createUserDocumentFromAuth } from "../../utils/firebase.utils";
+import { 
+    signAuthWithEmailAndPassword
+} from "../../utils/firebase.utils";
 import { InputField } from "../../Components/input-component/input.component";
 import { Button } from "../../Components/button-component/button-component";
 
 
 // The Default Data
 const defaultFormFields = {
-    displayName: "",
     email: "",
+    password: "",
 
 };
 
@@ -34,15 +35,26 @@ const SignIn = ({ googleFunc , signInFunc }) => {
 
 
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
         try {
+            e.preventDefault()
+            const response = await signAuthWithEmailAndPassword(email, password)
+            console.log(response);
             resetDefault()
         } catch (err) {
+            switch (err.code) {
+                case 'auth/wrong-password':
+                    alert('Bad Credentials !!')
+                    break;
 
-            if (err.code === 'auth/email-already-in-use') {
-                alert('Cannot Create Account, Email is Already Used !!')
+                case 'auth/user-not-found':
+                    alert('This email not in our database ! try to sign up ')
+                    break;
+            
+                default:
+                    break;
             }
-            console.log("Error Creating this user because ", err);
+
 
         }
     }
@@ -54,7 +66,8 @@ const SignIn = ({ googleFunc , signInFunc }) => {
         <div>
             <h2>I already have an Account</h2>
             <span>Sign in with your email and password</span>
-            <form className="signIn" action="">
+            <form className="signIn" 
+                onSubmit={handleSubmit}>
                 <InputField 
                     label={'Email'}
                     type="email" 
@@ -77,15 +90,16 @@ const SignIn = ({ googleFunc , signInFunc }) => {
 
 
                 <div className="buttons">
-                    <Button type="submit"
-                    onClick={signInFunc}
-                    >
+                    <Button type="submit">
                         Sign In
                     </Button>
+
                     <Button
                         button_type={'google'}
                         onClick={googleFunc}
-                    >   Sign In With Google
+                        type="button"
+                    >
+                        Sign In With Google
                     </Button>
                 </div>
             </form>
