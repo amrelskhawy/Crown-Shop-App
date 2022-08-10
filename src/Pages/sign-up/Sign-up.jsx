@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./Sign-up.scss";
 import { createAuthUserWithEmailAndPassword
 , createUserDocumentFromAuth } from "../../utils/firebase.utils";
 import { InputField } from "../../Components/input-component/input.component";
 import { Button } from "../../Components/button-component/button-component";
+import { UserContext } from "../../context/user.context";
 
 
 // The Default Data
@@ -19,6 +20,10 @@ const SignUp = () => {
     const [formFields, setFormFields] = useState(defaultFormFields);
 
     const { displayName, email, password, confirmPassword } = formFields;
+
+    const { setCurrentUser} = useContext(UserContext)
+
+    console.log('hit');
 
     // To Handle Changes and set a new data
     const handleChange = (event) => {
@@ -46,6 +51,7 @@ const SignUp = () => {
                 email,
                 password
             );
+            setCurrentUser(user)
             await createUserDocumentFromAuth(user, { displayName })
             resetDefault()
             console.log(user);

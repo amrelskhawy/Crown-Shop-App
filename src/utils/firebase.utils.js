@@ -12,7 +12,8 @@ import {
     signInWithPopup ,
     GoogleAuthProvider,
     createUserWithEmailAndPassword,
-    signInWithEmailAndPassword
+    signInWithEmailAndPassword,
+    signOut
 } from 'firebase/auth'
 
 // import Necessary files from FIRESTORE
@@ -101,8 +102,11 @@ const signAuthWithEmailAndPassword = async (email , password) => {
     return await signInWithEmailAndPassword(auth , email , password)
 }
 
+const signOutUser = async () => await signOut(auth)
+
+
 // Exporting The Methods
 export { auth, SignInWithGooglePopup
     , db , createUserDocumentFromAuth , SignInWithGoogleRedirect,
-    createAuthUserWithEmailAndPassword , signAuthWithEmailAndPassword
+    createAuthUserWithEmailAndPassword , signAuthWithEmailAndPassword , signOutUser
 }

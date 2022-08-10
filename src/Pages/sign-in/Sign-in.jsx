@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useContext } from "react";
 import "./Sign-in.scss";
 import { 
     signAuthWithEmailAndPassword
@@ -7,11 +7,13 @@ import { InputField } from "../../Components/input-component/input.component";
 import { Button } from "../../Components/button-component/button-component";
 
 
+import { UserContext } from "../../context/user.context";
+
+
 // The Default Data
 const defaultFormFields = {
     email: "",
     password: "",
-
 };
 
 // The Sign Up Form
@@ -21,6 +23,8 @@ const SignIn = ({ googleFunc , signInFunc }) => {
     const [formFields, setFormFields] = useState(defaultFormFields);
 
     const { email, password } = formFields;
+
+    const { setCurrentUser } = useContext(UserContext)
 
     // To Handle Changes and set a new data
     const handleChange = (event) => {
@@ -33,14 +37,14 @@ const SignIn = ({ googleFunc , signInFunc }) => {
 
     const resetDefault = () => setFormFields(defaultFormFields)
 
-
-
     const handleSubmit = async (e) => {
         try {
             e.preventDefault()
-            const response = await signAuthWithEmailAndPassword(email, password)
-            console.log(response);
+
+            const {user} = await signAuthWithEmailAndPassword(email, password)
+            setCurrentUser(user)
             resetDefault()
+
         } catch (err) {
             switch (err.code) {
                 case 'auth/wrong-password':
@@ -54,14 +58,8 @@ const SignIn = ({ googleFunc , signInFunc }) => {
                 default:
                     break;
             }
-
-
         }
     }
-
-
-    
-
     return (
         <div>
             <h2>I already have an Account</h2>
