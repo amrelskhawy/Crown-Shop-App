@@ -13,7 +13,7 @@ import {
     GoogleAuthProvider,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
-    signOut
+    signOut, onAuthStateChanged
 } from 'firebase/auth'
 
 // import Necessary files from FIRESTORE
@@ -30,7 +30,7 @@ const firebaseConfig = {
     projectId: "crwn-db-d786a",
     storageBucket: "crwn-db-d786a.appspot.com",
     messagingSenderId: "681027007986",
-    appId: "1:681027007986:web:ec843d927ae4dcc29da76b"
+    appId: "1:681027007986:web:ec843d927a e4dcc29da76b"
 };
 
 // Initialize Firebase App
@@ -61,8 +61,7 @@ const createUserDocumentFromAuth = async (userAuth, additionalInforamtion = {}) 
     if (!userAuth) return ;
     const userDocRef = doc(db,'users',
         userAuth.uid)
-
-
+        
     const userSnapShot = await getDoc(userDocRef)
 
     /*
@@ -104,9 +103,11 @@ const signAuthWithEmailAndPassword = async (email , password) => {
 
 const signOutUser = async () => await signOut(auth)
 
+const onAuthStateChangedListner = (callback) => onAuthStateChanged(auth,callback)
 
 // Exporting The Methods
 export { auth, SignInWithGooglePopup
     , db , createUserDocumentFromAuth , SignInWithGoogleRedirect,
-    createAuthUserWithEmailAndPassword , signAuthWithEmailAndPassword , signOutUser
+    createAuthUserWithEmailAndPassword , signAuthWithEmailAndPassword ,
+signOutUser,onAuthStateChangedListner
 }
