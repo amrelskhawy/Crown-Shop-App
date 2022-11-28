@@ -90,7 +90,11 @@ const SignIn = ({ signInFunc }) => {
 
 
                 <div className="buttons">
-                    <Button type="submit">
+                    <Button type="submit"
+                    style={{
+                        flex: 1,
+                    }}
+                    >
                         Sign In
                     </Button>
 
@@ -98,6 +102,9 @@ const SignIn = ({ signInFunc }) => {
                         button_type={'google'}
                         onClick={logGoogleUser}
                         type="button"
+                        style={{
+                            flex: 2,
+                        }}
                     >
                         Sign In With Google
                     </Button>
