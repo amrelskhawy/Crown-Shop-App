@@ -7,6 +7,8 @@ import {
 
 import { InputField } from "../../Components/input-component/input.component";
 import { Button } from "../../Components/button-component/button-component";
+
+
 import "./Sign-in.scss";
 
 // The Default Data
@@ -24,8 +26,7 @@ const SignIn = ({ signInFunc }) => {
 
     const logGoogleUser = async () => {
         const { user } = await SignInWithGooglePopup();
-        // setCurrentUser(user)
-        await createUserDocumentFromAuth(user);
+        createUserDocumentFromAuth(user);
     };
 
     // To Handle Changes and set a new data
@@ -42,22 +43,23 @@ const SignIn = ({ signInFunc }) => {
     const handleSubmit = async (e) => {
         try {
             e.preventDefault()
-
-            const {user} = await signAuthWithEmailAndPassword(email, password)
-            // setCurrentUser(user)
+            await signAuthWithEmailAndPassword(email, password)
             resetDefault()
 
         } catch (err) {
             switch (err.code) {
+                // If the Passeword is wrong
                 case 'auth/wrong-password':
                     alert('Bad Credentials !!')
                     break;
 
+                // If the User is not Exist
                 case 'auth/user-not-found':
                     alert('This email not in our database ! try to sign up ')
                     break;
-            
+                    
                 default:
+                    e.preventDefault()
                     break;
             }
         }

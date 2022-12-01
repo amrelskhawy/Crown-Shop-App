@@ -9,7 +9,7 @@ import {
 import {
     getAuth,
     signInWithRedirect,
-    signInWithPopup ,
+    signInWithPopup,
     GoogleAuthProvider,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
@@ -18,8 +18,8 @@ import {
 
 // import Necessary files from FIRESTORE
 import {
-    getFirestore, doc ,
-    getDoc , setDoc
+    getFirestore, doc,
+    getDoc, setDoc
 } from 'firebase/firestore'
 
 
@@ -43,8 +43,8 @@ googleProvider.setCustomParameters({
 })
 
 const auth = getAuth();
-const SignInWithGooglePopup = () => signInWithPopup(auth,googleProvider)
-const SignInWithGoogleRedirect = () => signInWithRedirect(auth,googleProvider)
+const SignInWithGooglePopup = () => signInWithPopup(auth, googleProvider)
+const SignInWithGoogleRedirect = () => signInWithRedirect(auth, googleProvider)
 
 // ========== Dealing With Database ==========
 
@@ -58,14 +58,14 @@ const createUserDocumentFromAuth = async (userAuth, additionalInforamtion = {}) 
             from sign in with Google PopUp
     */
 
-    if (!userAuth) return ;
-    const userDocRef = doc(db,'users',
+    if (!userAuth) return;
+    const userDocRef = doc(db, 'users',
         userAuth.uid)
-        
+
     const userSnapShot = await getDoc(userDocRef)
 
     /*
-        ======= Our Methodology =======
+        ======= Our Methodology ======= 
         * If User Exists -> return User Data
         * If User doesn't exist -> Create in our collection
     */
@@ -76,10 +76,10 @@ const createUserDocumentFromAuth = async (userAuth, additionalInforamtion = {}) 
         const createdAt = new Date()
 
         try {
-            await setDoc(userDocRef,{
+            await setDoc(userDocRef, {
                 displayName,
                 email,
-                createdAt, 
+                createdAt,
                 ...additionalInforamtion
             })
         } catch (err) {
@@ -92,22 +92,24 @@ const createUserDocumentFromAuth = async (userAuth, additionalInforamtion = {}) 
 
 }
 
-const createAuthUserWithEmailAndPassword = async (email , password) => {
-    if (!email || !password) return ;
-    return await createUserWithEmailAndPassword(auth , email,password)
+const createAuthUserWithEmailAndPassword = async (email, password) => {
+    if (!email || !password) return;
+    return await createUserWithEmailAndPassword(auth, email, password)
 }
 
-const signAuthWithEmailAndPassword = async (email , password) => {
-    return await signInWithEmailAndPassword(auth , email , password)
+const signAuthWithEmailAndPassword = async (email, password) => {
+    return await signInWithEmailAndPassword(auth, email, password)
 }
 
 const signOutUser = async () => await signOut(auth)
 
-const onAuthStateChangedListner = (callback) => onAuthStateChanged(auth,callback)
+const onAuthStateChangedListner = (callback) =>
+        onAuthStateChanged(auth, callback)
 
 // Exporting The Methods
-export { auth, SignInWithGooglePopup
-    , db , createUserDocumentFromAuth , SignInWithGoogleRedirect,
-    createAuthUserWithEmailAndPassword , signAuthWithEmailAndPassword ,
-signOutUser,onAuthStateChangedListner
+export {
+    auth, SignInWithGooglePopup
+    , db, createUserDocumentFromAuth, SignInWithGoogleRedirect,
+    createAuthUserWithEmailAndPassword, signAuthWithEmailAndPassword,
+    signOutUser, onAuthStateChangedListner
 }

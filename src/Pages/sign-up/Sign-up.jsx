@@ -1,10 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import "./Sign-up.scss";
 import { createAuthUserWithEmailAndPassword
 , createUserDocumentFromAuth } from "../../utils/firebase.utils";
 import { InputField } from "../../Components/input-component/input.component";
 import { Button } from "../../Components/button-component/button-component";
-import { UserContext } from "../../context/user.context";
 
 
 // The Default Data
@@ -20,10 +19,6 @@ const SignUp = () => {
     const [formFields, setFormFields] = useState(defaultFormFields);
 
     const { displayName, email, password, confirmPassword } = formFields;
-
-    const { setCurrentUser} = useContext(UserContext)
-
-    console.log('hit');
 
     // To Handle Changes and set a new data
     const handleChange = (event) => {
@@ -51,15 +46,27 @@ const SignUp = () => {
                 email,
                 password
             );
-            setCurrentUser(user)
             await createUserDocumentFromAuth(user, { displayName })
             resetDefault()
-            console.log(user);
+
         } catch (err) {
-            if (err.code === 'auth/email-already-in-use') {
-                alert('Cannot Create Account, Email is Already Used !!')
+            switch (err.code) {
+                case 'auth/weak-password':
+                    alert('The Password Should be at least 6 Characters !!')
+                    console.clear()
+                    break;
+
+                case 'auth/email-already-in-use':
+                    alert('This Email is already Exists !!')
+                    console.clear()
+                    break;
+
+                default:
+                    console.log("Error Creating this user because ", err);
+                    break;
             }
-            console.log("Error Creating this user because ", err);
+
+
         }
     };
 
@@ -75,6 +82,7 @@ const SignUp = () => {
                     type="text"
                     value={displayName}
                     onChange={handleChange}
+                    required={true}
                 />
 
                 <InputField
@@ -83,6 +91,7 @@ const SignUp = () => {
                     type="email"
                     value={email}
                     onChange={handleChange}
+                    required={true}
                 />
 
                 <InputField
@@ -90,8 +99,8 @@ const SignUp = () => {
                     name={"password"}
                     type="password"
                     value={password}
-                    required
                     onChange={handleChange}
+                    required={true}
                 />
 
                 <InputField
@@ -99,7 +108,7 @@ const SignUp = () => {
                     name={"confirmPassword"}
                     type="password"
                     value={confirmPassword}
-                    required
+                    required={true}
                     onChange={handleChange}
                 />
 
