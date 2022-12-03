@@ -1,7 +1,6 @@
 import React, { useState  } from "react";
 import { 
     SignInWithGooglePopup,
-    createUserDocumentFromAuth,
     signAuthWithEmailAndPassword
 } from "../../utils/firebase.utils";
 
@@ -25,8 +24,20 @@ const SignIn = ({ signInFunc }) => {
     const { email, password } = formFields;
 
     const logGoogleUser = async () => {
-        const { user } = await SignInWithGooglePopup();
-        createUserDocumentFromAuth(user);
+        try {
+            await SignInWithGooglePopup();
+        } catch (error) {
+            switch (error.code) {
+                // If the User mail is Disabled
+                case 'auth/user-disabled':
+                    alert('This email is Disabled Right Now, Back To Adminstrator ')
+                    break;
+            
+                default:
+                    break;
+            }
+
+        }
     };
 
     // To Handle Changes and set a new data
@@ -58,6 +69,7 @@ const SignIn = ({ signInFunc }) => {
                     alert('This email not in our database ! try to sign up ')
                     break;
                     
+
                 default:
                     e.preventDefault()
                     break;

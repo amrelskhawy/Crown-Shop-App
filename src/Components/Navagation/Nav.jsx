@@ -12,7 +12,6 @@ export const Nav = () => {
     
     const handleSignOut = async () => {
         await signOutUser()
-        setCurrentUser(null)
     }
 
     return (
@@ -30,7 +29,7 @@ export const Nav = () => {
                     </Link>
                     {
                         currentUser ? (
-                            <span className="nav-link" onClick={handleSignOut}>
+                            <span className="nav-link" onClick={signOutUser}>
                                 SIGN OUT
                             </span>
                         ) : (
