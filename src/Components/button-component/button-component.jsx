@@ -8,7 +8,7 @@ const BUTTON_TYPE_CLASSES = {
 
 export const Button = ({children , button_type , ...otherProps}) => {
     return <button 
-        className={`button-container ${BUTTON_TYPE_CLASSES[button_type]}`} 
+        className={`button-container ${button_type ? BUTTON_TYPE_CLASSES[button_type] : ''}`} 
         {...otherProps}
         >
             {children}
