@@ -22,9 +22,11 @@
 
     .cart-items {
         height: 240px;
+        overflow-y: auto;
         display: flex;
         flex-direction: column;
-        overflow: hidden;
+        text-align: center;
+        gap: 1rem;
     }
 
     button {

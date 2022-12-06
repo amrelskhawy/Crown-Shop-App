@@ -14,7 +14,7 @@ export const Shop = () => {
                   
                   <ProductItem
                     key={product.id}
-                    {...product}
+                    product={product}
                   />
               )
             }
