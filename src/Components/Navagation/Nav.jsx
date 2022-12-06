@@ -1,4 +1,4 @@
-import React, { Fragment, useContext,useState } from "react";
+import React, { Fragment, useContext } from "react";
 import { Outlet } from "react-router-dom";
 import "./navigation.styles.scss";
 import { Link } from "react-router-dom";
@@ -7,11 +7,12 @@ import { signOutUser } from "../../utils/firebase.utils";
 import CartDropdown from "../cart-dropdown/cart-dropdown"
 import { UserContext } from "../../context/user.context";
 import CartIcon from "../cart-icon/cart-icon";
+import { CartContext } from "../../context/cart-context";
 
 export const Nav = () => {
     const { currentUser } = useContext(UserContext)
+    const {isCartOpen} = useContext(CartContext)
     
-    const [isHidden, setIsHidden] =  useState(true)
 
     return (
         <Fragment>
@@ -37,9 +38,9 @@ export const Nav = () => {
                             </Link>
                         )
                     }
-                    <CartIcon onClick={() => setIsHidden(!isHidden)} />
+                    <CartIcon  />
                 </div>
-                <CartDropdown isHidden={isHidden} />
+                {isCartOpen && <CartDropdown />}
                 </nav>
 
             <Outlet />
