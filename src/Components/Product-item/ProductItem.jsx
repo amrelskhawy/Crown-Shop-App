@@ -7,7 +7,7 @@ const ProductItem = ({product}) => {
   const {name, price, imageUrl,...otherProps} = product
   const {addItemToCart} = useContext(CartContext)
 
-  const addProductToCart = ()=>  addItemToCart(product)
+  const addProductToCart = () =>  addItemToCart(product)
 
 
   return (
