@@ -35,3 +35,11 @@
         padding: 0;
     }
 }
+
+button a {
+    color: #fff;
+
+    &:hover {
+        color:black ;
+    }
+}

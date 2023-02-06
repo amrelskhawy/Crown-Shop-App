@@ -3,6 +3,7 @@ import { Home } from "./Pages/Home/Home";
 import { Nav } from "./Components/Navagation/Nav";
 import Auth from "./Pages/auth/Auth";
 import { Shop } from "./Pages/Shop/Shop";
+import Checkout from "./Pages/checkout/checkout";
 
 const Hats = () => {
     return <h1>Hats Component</h1>;
@@ -16,6 +17,7 @@ const App = () => {
                 <Route path="hats" element={<Hats />} />
                 <Route path="auth" element={<Auth />} />
                 <Route path="shop" element={<Shop />} />
+                <Route path="checkout" element={<Checkout />} />
                 <Route path="jackets" element={""} />
                 <Route path="sneakers" element={""} />
                 <Route path="womens" element={""} />
