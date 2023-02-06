@@ -21,7 +21,7 @@ const CheckoutItem = ({ cartItem}) => {
             </span>
             <span className='price'>{price}</span>
 
-            <span className='arrow' onClick={()=> removeElement(cartItem)}>&#10005;</span>
+            <span className='remove' style={{cursor: "pointer"}} onClick={()=> removeElement(cartItem)}>&#10005;</span>
         </div>
     )
 }
