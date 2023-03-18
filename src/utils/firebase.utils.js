@@ -13,13 +13,15 @@ import {
     GoogleAuthProvider,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
-    signOut, onAuthStateChanged
+    signOut, onAuthStateChanged,
+
 } from 'firebase/auth'
 
 // import Necessary files from FIRESTORE
 import {
     getFirestore, doc,
-    getDoc, setDoc
+    getDoc, setDoc,
+    collection, writeBatch, query, getDocs
 } from 'firebase/firestore'
 
 
@@ -51,9 +53,37 @@ const SignInWithGoogleRedirect = () => signInWithRedirect(auth, googleProvider)
 // Create DB
 const db = getFirestore()
 
+
+// Add SHOP DATA to Firestore
+const addCollectionsAndDocuments = async (collectionKey, objectsToAdd) => {
+    const collectionRef = collection(db, collectionKey);
+    const batch = writeBatch(db)
+    objectsToAdd.forEach(obj => {
+        const docRef = doc(collectionRef, obj.title.toLowerCase())
+        batch.set(docRef, obj)
+    });
+    await batch.commit()
+    console.log('done')
+}
+
+// Get FireStore Data
+export const getCategoriesAndDocuments = async () => {
+    const collectionRef = collection(db,"categories")
+    const q  = query(collectionRef)
+
+    const querySnapshot = await getDocs(q)
+    const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot)=> {
+        const {title , items} = docSnapshot.data()
+        acc[title.toLowerCase()] = items;
+        return acc; 
+    }, {})
+    return categoryMap
+}
+
+
 // Create User in DB
 const createUserDocumentFromAuth = async (userAuth, additionalInforamtion = {}) => {
-    /*
+    /* 
         Create a Doc with Response
             from sign in with Google PopUp
     */
@@ -104,12 +134,12 @@ const signAuthWithEmailAndPassword = async (email, password) => {
 const signOutUser = async () => await signOut(auth)
 
 const onAuthStateChangedListner = (callback) =>
-        onAuthStateChanged(auth, callback)
+    onAuthStateChanged(auth, callback)
 
 // Exporting The Methods
 export {
     auth, SignInWithGooglePopup
     , db, createUserDocumentFromAuth, SignInWithGoogleRedirect,
     createAuthUserWithEmailAndPassword, signAuthWithEmailAndPassword,
-    signOutUser, onAuthStateChangedListner
+    signOutUser, onAuthStateChangedListner,addCollectionsAndDocuments
 }
