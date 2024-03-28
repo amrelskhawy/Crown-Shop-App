@@ -1,8 +1,4 @@
 import React, { useState  } from "react";
-import { 
-    SignInWithGooglePopup,
-    signAuthWithEmailAndPassword
-} from "../../utils/firebase.utils";
 
 import { InputField } from "../../Components/input-component/input.component";
 import { Button } from "../../Components/button-component/button-component";
@@ -25,7 +21,7 @@ const SignIn = ({ signInFunc }) => {
 
     const logGoogleUser = async () => {
         try {
-            await SignInWithGooglePopup();
+           
         } catch (error) {
             switch (error.code) {
                 // If the User mail is Disabled
@@ -53,8 +49,10 @@ const SignIn = ({ signInFunc }) => {
 
     const handleSubmit = async (e) => {
         try {
+
             e.preventDefault()
-            await signAuthWithEmailAndPassword(email, password)
+
+            
             resetDefault()
 
         } catch (err) {

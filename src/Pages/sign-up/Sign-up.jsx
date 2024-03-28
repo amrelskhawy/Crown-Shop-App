@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./Sign-up.scss";
-import { createAuthUserWithEmailAndPassword
-, createUserDocumentFromAuth } from "../../utils/firebase.utils";
+
 import { InputField } from "../../Components/input-component/input.component";
 import { Button } from "../../Components/button-component/button-component";
 
@@ -42,11 +41,7 @@ const SignUp = () => {
         }
 
         try {
-            const { user } = await createAuthUserWithEmailAndPassword(
-                email,
-                password
-            );
-            await createUserDocumentFromAuth(user, { displayName })
+
             resetDefault()
 
         } catch (err) {
