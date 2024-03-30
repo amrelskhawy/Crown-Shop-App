@@ -3,8 +3,8 @@ import React, { useState  } from "react";
 import { InputField } from "../../Components/input-component/input.component";
 import { Button } from "../../Components/button-component/button-component";
 
-
 import "./Sign-in.scss";
+import {signInWithGooglePopUp, createUserDocumentFromAuth} from "../../utils/firebase.utils";
 
 // The Default Data
 const defaultFormFields = {
@@ -12,7 +12,7 @@ const defaultFormFields = {
     password: "",
 };
 
-// The Sign Up Form
+// The SignUp Form
 const SignIn = ({ signInFunc }) => {
 
     const [formFields, setFormFields] = useState(defaultFormFields);
@@ -21,7 +21,9 @@ const SignIn = ({ signInFunc }) => {
 
     const logGoogleUser = async () => {
         try {
-           
+           const {user}  = await signInWithGooglePopUp();
+           const userDocRef = await createUserDocumentFromAuth(user)
+          // console.log(auth)
         } catch (error) {
             switch (error.code) {
                 // If the User mail is Disabled
