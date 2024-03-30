@@ -1,10 +1,18 @@
-import React, { useState  } from "react";
+import React, {useEffect, useState} from "react";
 
 import { InputField } from "../../Components/input-component/input.component";
 import { Button } from "../../Components/button-component/button-component";
 
 import "./Sign-in.scss";
-import {signInWithGooglePopUp, createUserDocumentFromAuth} from "../../utils/firebase.utils";
+import {
+  auth,
+  signInWithGooglePopUp,
+  createUserDocumentFromAuth,
+  signInWithGoogleRedirect
+} from "../../utils/firebase.utils";
+
+import { getRedirectResult } from "firebase/auth"
+
 
 // The Default Data
 const defaultFormFields = {
@@ -14,6 +22,19 @@ const defaultFormFields = {
 
 // The SignUp Form
 const SignIn = ({ signInFunc }) => {
+
+  useEffect(() => {
+    async function getGoogleRedirectResult() {
+      const res = await getRedirectResult(auth);
+      if (res) {
+        const userDocRef = await createUserDocumentFromAuth(res.user)
+      }
+    }
+
+    getGoogleRedirectResult(); // Call the async function immediately
+
+    // Since fetchData() doesn't return a cleanup function, there's no need to return anything here.
+  }, []);
 
     const [formFields, setFormFields] = useState(defaultFormFields);
 
@@ -37,6 +58,10 @@ const SignIn = ({ signInFunc }) => {
 
         }
     };
+
+    const logGoogleUserRedirect = async () => {
+        const user = await signInWithGoogleRedirect();
+    }
 
     // To Handle Changes and set a new data
     const handleChange = (event) => {
@@ -76,6 +101,7 @@ const SignIn = ({ signInFunc }) => {
             }
         }
     }
+
     return (
         <div>
             <h2>I already have an Account</h2>
@@ -121,6 +147,17 @@ const SignIn = ({ signInFunc }) => {
                         }}
                     >
                         Sign In With Google
+                    </Button>
+
+                  <Button
+                        button_type={'google'}
+                        onClick={signInWithGoogleRedirect}
+                        type="button"
+                        style={{
+                            flex: 2,
+                        }}
+                    >
+                        Google Redirect
                     </Button>
                 </div>
             </form>
